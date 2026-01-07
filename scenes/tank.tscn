@@ -256,14 +256,16 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_um1ka")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c4xvs"]
+size = Vector3(200, 150, 300)
 
 [node name="Tank" type="CharacterBody3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 script = ExtResource("1_qrxud")
 
 [node name="Hull" type="Node3D" parent="."]
 
 [node name="HullMesh" type="Node3D" parent="Hull"]
-transform = Transform3D(5.9604645e-08, 0, 1, 2.220446e-16, 1, -1.323489e-23, -1, 2.220446e-16, 5.9604645e-08, -49.999996, -81.40962, -10.801011)
+transform = Transform3D(5.9604645e-08, 0, 1, 2.220446e-16, 1, -1.323489e-23, -1, 2.220446e-16, 5.9604645e-08, 0, -81.41, 0)
 
 [node name="Cube_VerdeClaro_0" type="MeshInstance3D" parent="Hull/HullMesh"]
 mesh = SubResource("ArrayMesh_brbl0")
@@ -284,7 +286,7 @@ skeleton = NodePath("")
 [node name="TurretPivot" type="Node3D" parent="."]
 
 [node name="TurretMesh" type="Node3D" parent="TurretPivot"]
-transform = Transform3D(0.51606655, 0, 0, 0, 0.22572286, -1.145898e-16, 0, 5.0120544e-17, 0.51606655, -50.122517, -6.074341, -12.850225)
+transform = Transform3D(0.51606655, 0, 0, 0, 0.22572286, -1.145898e-16, 0, 5.0120544e-17, 0.51606655, 0, -6.074, 0)
 
 [node name="Cube_001_VerdeForte_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh"]
 mesh = SubResource("ArrayMesh_7etdv")
@@ -299,4 +301,5 @@ mesh = SubResource("ArrayMesh_81n6m")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -75, 0)
 shape = SubResource("BoxShape3D_c4xvs")
