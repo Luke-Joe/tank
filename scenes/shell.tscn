@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtuwu1ws5qs0u"]
+[gd_scene load_steps=4 format=3 uid="uid://dtuwu1ws5qs0u"]
+
+[ext_resource type="Script" uid="uid://dki4pfb84nqlu" path="res://scripts/shell.gd" id="1_bo4bk"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_efm2f"]
 
@@ -9,6 +11,7 @@ gravity_scale = 0.0
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 4
+script = ExtResource("1_bo4bk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_efm2f")

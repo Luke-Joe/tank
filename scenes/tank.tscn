@@ -306,6 +306,9 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_81n6m")
 skeleton = NodePath("")
 
+[node name="Muzzle" type="Node3D" parent="TurretPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, -210)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -75, 0)
 shape = SubResource("BoxShape3D_c4xvs")
