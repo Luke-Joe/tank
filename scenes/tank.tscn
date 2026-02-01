@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=4 uid="uid://dn2qd8twvwk7x"]
+[gd_scene format=4 uid="uid://dn2qd8twvwk7x"]
 
 [ext_resource type="Script" uid="uid://bbi3dma0dq5km" path="res://scripts/tank/Tank.gd" id="1_01nm4"]
 [ext_resource type="Script" uid="uid://bf8q8ihgjgvd4" path="res://scripts/tank/Turret.gd" id="2_c4xvs"]
 [ext_resource type="Script" uid="uid://ofr5gbg4wkge" path="res://scripts/tank/TankInput.gd" id="2_k4vtj"]
+[ext_resource type="PackedScene" uid="uid://dtuwu1ws5qs0u" path="res://scenes/shell.tscn" id="2_lj6hj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x8idy"]
 resource_name = "VerdeClaro"
@@ -260,55 +261,56 @@ shadow_mesh = SubResource("ArrayMesh_um1ka")
 [sub_resource type="BoxShape3D" id="BoxShape3D_c4xvs"]
 size = Vector3(200, 150, 300)
 
-[node name="Tank" type="CharacterBody3D"]
+[node name="Tank" type="CharacterBody3D" unique_id=573241699]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 script = ExtResource("1_01nm4")
+shell_scene = ExtResource("2_lj6hj")
 
-[node name="TankInput" type="Node" parent="."]
+[node name="TankInput" type="Node" parent="." unique_id=54009093]
 script = ExtResource("2_k4vtj")
 
-[node name="Hull" type="Node3D" parent="."]
+[node name="Hull" type="Node3D" parent="." unique_id=452892043]
 
-[node name="HullMesh" type="Node3D" parent="Hull"]
+[node name="HullMesh" type="Node3D" parent="Hull" unique_id=260120873]
 transform = Transform3D(5.9604645e-08, 0, 1, 2.220446e-16, 1, -1.323489e-23, -1, 2.220446e-16, 5.9604645e-08, 0, -81.41, 0)
 
-[node name="Cube_VerdeClaro_0" type="MeshInstance3D" parent="Hull/HullMesh"]
+[node name="Cube_VerdeClaro_0" type="MeshInstance3D" parent="Hull/HullMesh" unique_id=366493881]
 mesh = SubResource("ArrayMesh_brbl0")
 skeleton = NodePath("")
 
-[node name="Cube_VerdeForte_0" type="MeshInstance3D" parent="Hull/HullMesh"]
+[node name="Cube_VerdeForte_0" type="MeshInstance3D" parent="Hull/HullMesh" unique_id=985135216]
 mesh = SubResource("ArrayMesh_vrs7f")
 skeleton = NodePath("")
 
-[node name="Cube_Luz_0" type="MeshInstance3D" parent="Hull/HullMesh"]
+[node name="Cube_Luz_0" type="MeshInstance3D" parent="Hull/HullMesh" unique_id=742503240]
 mesh = SubResource("ArrayMesh_bxqp6")
 skeleton = NodePath("")
 
-[node name="Cube_Material_0" type="MeshInstance3D" parent="Hull/HullMesh"]
+[node name="Cube_Material_0" type="MeshInstance3D" parent="Hull/HullMesh" unique_id=1334532109]
 mesh = SubResource("ArrayMesh_60mty")
 skeleton = NodePath("")
 
-[node name="TurretPivot" type="Node3D" parent="."]
+[node name="TurretPivot" type="Node3D" parent="." unique_id=559874402]
 script = ExtResource("2_c4xvs")
 
-[node name="TurretMesh" type="Node3D" parent="TurretPivot"]
+[node name="TurretMesh" type="Node3D" parent="TurretPivot" unique_id=524697768]
 transform = Transform3D(0.51606655, 0, 0, 0, 0.22572286, -1.145898e-16, 0, 5.0120544e-17, 0.51606655, 0, -6.074, 0)
 
-[node name="Cube_001_VerdeForte_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh"]
+[node name="Cube_001_VerdeForte_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh" unique_id=787065877]
 mesh = SubResource("ArrayMesh_7etdv")
 skeleton = NodePath("")
 
-[node name="Cube_001_Preto_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh"]
+[node name="Cube_001_Preto_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh" unique_id=1218352722]
 mesh = SubResource("ArrayMesh_l0oyc")
 skeleton = NodePath("")
 
-[node name="Cube_001_VerdeClaro_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh"]
+[node name="Cube_001_VerdeClaro_0" type="MeshInstance3D" parent="TurretPivot/TurretMesh" unique_id=1754853930]
 mesh = SubResource("ArrayMesh_81n6m")
 skeleton = NodePath("")
 
-[node name="Muzzle" type="Node3D" parent="TurretPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, -210)
+[node name="Muzzle" type="Node3D" parent="TurretPivot" unique_id=316020551]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, -270.93887)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1054655145]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -75, 0)
 shape = SubResource("BoxShape3D_c4xvs")

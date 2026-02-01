@@ -13,9 +13,10 @@ extends CharacterBody3D
 # FIRING
 @export var shell_scene: PackedScene
 @export var fire_cooldown := 0.4
-
+@export var max_active_shells := 5
 
 var can_fire := true
+var active_shells := 0
 var input_state : TankInputState
 var player_id := 0
 	
@@ -49,7 +50,7 @@ func handle_movement(delta):
 	velocity = forward * new_speed
 	velocity.y = 0.0
 		
-func handle_rotation(delta):
+func handle_rotation(delta) -> void:
 	var is_reversing := input_state.move < 0
 	
 	var turn = input_state.turn
@@ -57,8 +58,8 @@ func handle_rotation(delta):
 	
 	rotation.y += turn * turn_speed * delta
 	
-func request_fire():
-	if not can_fire:
+func request_fire() -> void:
+	if not can_fire or active_shells >= max_active_shells:
 		return
 		
 	can_fire = false
@@ -66,15 +67,21 @@ func request_fire():
 	await get_tree().create_timer(fire_cooldown).timeout
 	can_fire = true
 	
-func fire_shell():
+func fire_shell() -> void:
 	if (!shell_scene):
 		push_error("shell_scene not set on tank")
 		return
 		
 	var shell = shell_scene.instantiate()
 	shell.global_transform = muzzle.global_transform
-	shell.fire(-muzzle.global_basis.z, player_id)
-
 	get_tree().current_scene.add_child(shell)
+	shell.fire(-muzzle.global_basis.z, player_id)
+	shell.shell_despawned.connect(_on_shell_despawned)
 	
+	active_shells += 1
+	print("firing shell")
+	
+func _on_shell_despawned(shell: Node) -> void:
+	active_shells -= 1
+	print('active shells:', active_shells)
 	

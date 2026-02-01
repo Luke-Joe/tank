@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://0hdeb435c6gd"]
+[gd_scene format=3 uid="uid://0hdeb435c6gd"]
 
 [ext_resource type="PackedScene" uid="uid://dn2qd8twvwk7x" path="res://scenes/tank.tscn" id="1_o5qli"]
 
@@ -7,23 +7,23 @@ size = Vector3(500, 1, 500)
 
 [sub_resource type="BoxMesh" id="BoxMesh_efo6m"]
 
-[node name="Main_tscn" type="Node3D"]
+[node name="Main_tscn" type="Node3D" unique_id=1479040445]
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=66066755]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=638260976]
 shape = SubResource("BoxShape3D_efo6m")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(500, 0, 0, 0, 10, 0, 0, 0, 500, 0, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1644311228]
+transform = Transform3D(5000, 0, 0, 0, 10, 0, 0, 0, 5000, 0, 0, 0)
 mesh = SubResource("BoxMesh_efo6m")
 
-[node name="VehicleBody3D" parent="." instance=ExtResource("1_o5qli")]
+[node name="VehicleBody3D" parent="." unique_id=1821173376 instance=ExtResource("1_o5qli")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 29.157654, 130.28784)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 386, 134)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1014850842]
+transform = Transform3D(1, 0, 0, 0, 0.5294211, 0.84835917, 0, -0.84835917, 0.5294211, 0, 329.44177, 243.92963)
 fov = 70.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=98977181]
 transform = Transform3D(1, 0, 0, 0, 0.50000006, 0.8660255, 0, -0.8660255, 0.50000006, 302, 0, 0)
