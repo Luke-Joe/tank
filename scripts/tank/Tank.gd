@@ -73,9 +73,10 @@ func fire_shell() -> void:
 		return
 		
 	var shell = shell_scene.instantiate()
-	shell.global_transform = muzzle.global_transform
+	shell.global_position = muzzle.global_position
+	# shell.global_basis = muzzle.global_basis.orthonormalized()
 	get_tree().current_scene.add_child(shell)
-	shell.fire(-muzzle.global_basis.z, player_id)
+	shell.fire(-muzzle.global_basis.z)
 	shell.shell_despawned.connect(_on_shell_despawned)
 	
 	active_shells += 1

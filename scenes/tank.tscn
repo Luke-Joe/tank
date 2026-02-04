@@ -262,7 +262,6 @@ shadow_mesh = SubResource("ArrayMesh_um1ka")
 size = Vector3(200, 150, 300)
 
 [node name="Tank" type="CharacterBody3D" unique_id=573241699]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 script = ExtResource("1_01nm4")
 shell_scene = ExtResource("2_lj6hj")
 
@@ -309,7 +308,7 @@ mesh = SubResource("ArrayMesh_81n6m")
 skeleton = NodePath("")
 
 [node name="Muzzle" type="Node3D" parent="TurretPivot" unique_id=316020551]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -30, -270.93887)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -27.685303, -269.29117)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1054655145]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -75, 0)

@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var rotation_speed = 3
+@export var rotation_speed = 6
 
 var input_state : TankInputState
 
