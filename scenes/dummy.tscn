@@ -1,10 +1,6 @@
-[gd_scene format=4 uid="uid://dn2qd8twvwk7x"]
+[gd_scene format=4 uid="uid://b6h1ur6h8sd7r"]
 
-[ext_resource type="Script" uid="uid://bbi3dma0dq5km" path="res://scripts/tank/Tank.gd" id="1_01nm4"]
-[ext_resource type="Script" uid="uid://bf8q8ihgjgvd4" path="res://scripts/tank/Turret.gd" id="2_c4xvs"]
-[ext_resource type="Script" uid="uid://ofr5gbg4wkge" path="res://scripts/tank/TankInput.gd" id="2_k4vtj"]
-[ext_resource type="PackedScene" uid="uid://dtuwu1ws5qs0u" path="res://scenes/shell.tscn" id="2_lj6hj"]
-[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/Health.gd" id="4_lj6hj"]
+[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/Health.gd" id="4_vk0ha"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x8idy"]
 resource_name = "VerdeClaro"
@@ -263,17 +259,14 @@ shadow_mesh = SubResource("ArrayMesh_um1ka")
 size = Vector3(200, 150, 300)
 
 [node name="Tank" type="CharacterBody3D" unique_id=573241699]
-transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0, 0)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 collision_layer = 2
 collision_mask = 7
-script = ExtResource("1_01nm4")
-shell_scene = ExtResource("2_lj6hj")
 
 [node name="TankInput" type="Node" parent="." unique_id=54009093]
-script = ExtResource("2_k4vtj")
 
 [node name="Health" type="Node" parent="." unique_id=418467230]
-script = ExtResource("4_lj6hj")
+script = ExtResource("4_vk0ha")
 
 [node name="Hull" type="Node3D" parent="." unique_id=452892043]
 
@@ -297,7 +290,6 @@ mesh = SubResource("ArrayMesh_60mty")
 skeleton = NodePath("")
 
 [node name="TurretPivot" type="Node3D" parent="." unique_id=559874402]
-script = ExtResource("2_c4xvs")
 
 [node name="TurretMesh" type="Node3D" parent="TurretPivot" unique_id=524697768]
 transform = Transform3D(0.51606655, 0, 0, 0, 0.22572286, -1.145898e-16, 0, 5.0120544e-17, 0.51606655, 0, -6.074, 0)

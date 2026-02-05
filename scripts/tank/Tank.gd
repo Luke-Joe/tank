@@ -74,7 +74,6 @@ func fire_shell() -> void:
 		
 	var shell = shell_scene.instantiate()
 	shell.global_position = muzzle.global_position
-	# shell.global_basis = muzzle.global_basis.orthonormalized()
 	get_tree().current_scene.add_child(shell)
 	shell.fire(-muzzle.global_basis.z)
 	shell.shell_despawned.connect(_on_shell_despawned)

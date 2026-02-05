@@ -13,7 +13,6 @@ extends Node3D
 
 var bounces := 0
 var direction := Vector3.ZERO
-var collision_margin := 0.0
 
 signal shell_despawned(shell: Node)
 signal shell_bounced()
@@ -62,13 +61,11 @@ func _process_movement(delta: float) -> void:
 			
 	_apply_bounce(collision_data)
 		
-		
 
 func _check_collision(motion: Vector3) -> bool:
 	cast.target_position = motion
 	cast.force_shapecast_update()
 	return cast.is_colliding()
-		
 
 func _get_collision_data() -> CollisionResult:
 	if !cast.is_colliding():
@@ -83,9 +80,7 @@ func _get_collision_data() -> CollisionResult:
 
 func _apply_bounce(collision_data: CollisionResult) -> bool:
 	bounces += 1
-	
-	print('applying bounce: ', bounces)
-	
+		
 	if bounces >= max_bounces:
 		_despawn()
 		return false
@@ -98,15 +93,13 @@ func _apply_bounce(collision_data: CollisionResult) -> bool:
 	
 	global_position += normal * _calculate_adaptive_margin(impact_angle)
 	
-	# Emit event for VFX/SFX
 	shell_bounced.emit(collision_data.point, normal, bounces)
 	
 	return true
-	
-func _calculate_adaptive_margin(impact_angle: float) -> float:
-	print('angle: ', lerp(min_margin, max_margin, impact_angle))
-	
+
+func _calculate_adaptive_margin(impact_angle: float) -> float:	
 	return lerp(min_margin, max_margin, impact_angle)
+
 func _ready() -> void:
 	print("shell ready")
 

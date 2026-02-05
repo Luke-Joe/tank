@@ -1,0 +1,34 @@
+extends Node
+
+
+@export var max_health := 3
+
+var health: int
+
+signal damaged(amount: int, health: int)
+signal died()
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	health = max_health
+
+func _apply_damage(amount: int, source_id:int = -1) -> void:
+	if (amount < 0):
+		return
+	
+	health = max(health - amount, 0)
+	damaged.emit(amount, health)
+	
+	print('health: ', health)
+	
+	if (health <= 0):
+		died.emit(source_id)
+		
+
+func _die() -> void:
+	died.emit()
+	
+	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
