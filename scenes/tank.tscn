@@ -262,6 +262,7 @@ shadow_mesh = SubResource("ArrayMesh_um1ka")
 size = Vector3(200, 150, 300)
 
 [node name="Tank" type="CharacterBody3D" unique_id=573241699]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 script = ExtResource("1_01nm4")
 shell_scene = ExtResource("2_lj6hj")
 

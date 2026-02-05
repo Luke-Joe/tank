@@ -13,7 +13,7 @@ extends CharacterBody3D
 # FIRING
 @export var shell_scene: PackedScene
 @export var fire_cooldown := 0.4
-@export var max_active_shells := 5
+@export var max_active_shells := 100
 
 var can_fire := true
 var active_shells := 0
