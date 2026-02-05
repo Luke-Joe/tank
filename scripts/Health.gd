@@ -12,7 +12,9 @@ signal died()
 func _ready() -> void:
 	health = max_health
 
-func _apply_damage(amount: int, source_id:int = -1) -> void:
+func _apply_damage(hit: HitInfo) -> void:
+	var amount := hit.damage
+	
 	if (amount < 0):
 		return
 	
@@ -22,7 +24,7 @@ func _apply_damage(amount: int, source_id:int = -1) -> void:
 	print('health: ', health)
 	
 	if (health <= 0):
-		died.emit(source_id)
+		died.emit(hit.source_id)
 		
 
 func _die() -> void:

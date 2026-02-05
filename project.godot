@@ -19,6 +19,10 @@ run/main_scene="uid://0hdeb435c6gd"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[global_group]
+
+damageable=""
+
 [input]
 
 move_forward={

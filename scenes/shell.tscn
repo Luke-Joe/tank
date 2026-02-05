@@ -1,13 +1,18 @@
 [gd_scene format=3 uid="uid://dtuwu1ws5qs0u"]
 
 [ext_resource type="Script" uid="uid://dki4pfb84nqlu" path="res://scripts/Shell.gd" id="1_bo4bk"]
+[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/Health.gd" id="2_sb42f"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_efm2f"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bo4bk"]
 
-[node name="Shell" type="Node3D" unique_id=1296005095]
+[node name="Shell" type="Node3D" unique_id=1296005095 groups=["damageable"]]
 script = ExtResource("1_bo4bk")
+
+[node name="Health" type="Node" parent="." unique_id=1683565295]
+script = ExtResource("2_sb42f")
+max_health = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=941127517]
 transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 0, 0)

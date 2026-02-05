@@ -8,11 +8,13 @@ extends Node3D
 @export var max_bounces := 8
 @export var min_margin := 0.05
 @export var max_margin := 0.07
+@export var damage := 1
 
 @onready var cast := $ShapeCast3D
 
 var bounces := 0
 var direction := Vector3.ZERO
+var shooter_id: int
 
 signal shell_despawned(shell: Node)
 signal shell_bounced()
@@ -29,8 +31,9 @@ class CollisionResult:
 		distance = d
 		collider = c
 
-func fire(dir: Vector3) -> void:
+func fire(dir: Vector3, shooter_id: int) -> void:
 	direction = dir.normalized()
+	shooter_id = shooter_id
 	
 func _physics_process(delta: float) -> void:
 	lifetime -= delta
@@ -58,7 +61,11 @@ func _process_movement(delta: float) -> void:
 		return
 		
 	global_position += direction * collision_data.distance
-			
+	
+	if _try_deal_damage(collision_data):
+		_despawn()
+		return
+		
 	_apply_bounce(collision_data)
 		
 
@@ -77,6 +84,20 @@ func _get_collision_data() -> CollisionResult:
 		global_position.distance_to(cast.get_collision_point(0)),
 		cast.get_collider(0)
 	)
+
+func _try_deal_damage(collision_data: CollisionResult) -> bool:
+	var hit := collision_data.collider
+	
+	if hit == null:
+		return false
+		
+	if (hit.is_in_group('damageable') and hit.has_method('receive_damage')):
+		print('receiving damage: ', hit.name)
+		hit.receive_damage(HitInfo.new(damage, shooter_id))
+		return true
+		
+	return false
+	
 
 func _apply_bounce(collision_data: CollisionResult) -> bool:
 	bounces += 1
