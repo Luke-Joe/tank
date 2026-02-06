@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://dn2qd8twvwk7x"]
 
-[ext_resource type="Script" uid="uid://bbi3dma0dq5km" path="res://scripts/tank/Tank.gd" id="1_01nm4"]
-[ext_resource type="Script" uid="uid://bf8q8ihgjgvd4" path="res://scripts/tank/Turret.gd" id="2_c4xvs"]
-[ext_resource type="Script" uid="uid://ofr5gbg4wkge" path="res://scripts/tank/TankInput.gd" id="2_k4vtj"]
+[ext_resource type="Script" uid="uid://bbi3dma0dq5km" path="res://scripts/tank/tank.gd" id="1_01nm4"]
+[ext_resource type="Script" uid="uid://bf8q8ihgjgvd4" path="res://scripts/tank/turret.gd" id="2_c4xvs"]
+[ext_resource type="Script" uid="uid://ofr5gbg4wkge" path="res://scripts/tank/tankInput.gd" id="2_k4vtj"]
 [ext_resource type="PackedScene" uid="uid://dtuwu1ws5qs0u" path="res://scenes/shell.tscn" id="2_lj6hj"]
-[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/Health.gd" id="4_lj6hj"]
+[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/health.gd" id="4_lj6hj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x8idy"]
 resource_name = "VerdeClaro"

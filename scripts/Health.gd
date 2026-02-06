@@ -1,12 +1,12 @@
 extends Node
 
 
-@export var max_health := 3
+@export var max_health := 1
 
 var health: int
 
 signal damaged(amount: int, health: int)
-signal died()
+signal died(source_id: int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,7 +28,7 @@ func _apply_damage(hit: HitInfo) -> void:
 		
 
 func _die() -> void:
-	died.emit()
+	died.emit(-1)
 	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

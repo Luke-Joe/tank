@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://b6h1ur6h8sd7r"]
 
 [ext_resource type="Script" uid="uid://bg8ibqyxqpcsd" path="res://scripts/dummy.gd" id="1_k5f3b"]
-[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/Health.gd" id="4_vk0ha"]
+[ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/health.gd" id="4_vk0ha"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x8idy"]
 resource_name = "VerdeClaro"

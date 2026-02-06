@@ -5,22 +5,27 @@ extends CharacterBody3D
 @onready var muzzle := $TurretPivot/Muzzle
 @onready var health := $Health
 
-# MOVEMENT
+@export_group("Movement")
 @export var move_speed := 750.0
 @export var turn_speed := 2.5
 @export var acceleration := 50000.0
 @export var deceleration := 150.0
 
-# FIRING
+@export_group("Firing")
 @export var shell_scene: PackedScene
 @export var fire_cooldown := 0.4
 @export var max_active_shells := 100
 
-var can_fire := true
 var active_shells := 0
 var input_state : TankInputState
 var player_id := 0
+var can_fire := true
+var is_dead := false
+
+func _ready() -> void:
+	health.died.connect(_on_died)
 	
+
 func _physics_process(delta: float) -> void:
 	_handle_input()
 	if input_state == null:
@@ -58,7 +63,7 @@ func _handle_rotation(delta) -> void:
 	turn *= -1.0 if is_reversing else 1.0
 	
 	rotation.y += turn * turn_speed * delta
-	
+
 func _request_fire() -> void:
 	if not can_fire or active_shells >= max_active_shells:
 		return
@@ -67,11 +72,10 @@ func _request_fire() -> void:
 	_fire_shell()
 	await get_tree().create_timer(fire_cooldown).timeout
 	can_fire = true
-	
+
 func receive_damage(hit: HitInfo) -> void:
 	health._apply_damage(hit)
-	
-	
+
 func _fire_shell() -> void:
 	if (!shell_scene):
 		push_error("shell_scene not set on tank")
@@ -89,4 +93,11 @@ func _fire_shell() -> void:
 func _on_shell_despawned(shell: Node) -> void:
 	active_shells -= 1
 	print('active shells:', active_shells)
+	
+func _on_died(source_id: int) -> void:
+	if is_dead: 
+		return
+	
+	is_dead = true
+	
 	
