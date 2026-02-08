@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dy881ddf1pys7"]
+
+[ext_resource type="Script" uid="uid://bvk8qurbnn324" path="res://scripts/arenaGenerator.gd" id="1_e05a3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ug7gw"]
+size = Vector3(50, 0.1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e05a3"]
+
+[node name="Arena" type="Node3D" unique_id=1584895406]
+
+[node name="ArenaGenerator" type="Node" parent="." unique_id=382860658]
+script = ExtResource("1_e05a3")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1279641491]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=827810865]
+shape = SubResource("BoxShape3D_ug7gw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=561871008]
+transform = Transform3D(50, 0, 0, 0, 0.1, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("BoxMesh_e05a3")

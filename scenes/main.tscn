@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://0hdeb435c6gd"]
 
 [ext_resource type="PackedScene" uid="uid://dn2qd8twvwk7x" path="res://scenes/tank.tscn" id="1_o5qli"]
-[ext_resource type="Script" uid="uid://bgb2nhx5oloww" path="res://scripts/game_manager.gd" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://bgb2nhx5oloww" path="res://scripts/gameManager.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://b6h1ur6h8sd7r" path="res://scenes/dummy.tscn" id="2_0wfyh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_efo6m"]

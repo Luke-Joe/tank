@@ -11,6 +11,7 @@ extends Node3D
 @export var damage := 1
 
 @onready var cast := $ShapeCast3D
+@onready var health := $Health
 
 var bounces := 0
 var direction := Vector3.ZERO
@@ -68,6 +69,9 @@ func _process_movement(delta: float) -> void:
 		
 	_apply_bounce(collision_data)
 		
+
+func receive_damage(hit: HitInfo) -> void:
+	health._apply_damage(hit)
 
 func _check_collision(motion: Vector3) -> bool:
 	cast.target_position = motion
