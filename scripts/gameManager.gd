@@ -46,7 +46,22 @@ func end_round() -> void:
 		return
 		
 	_set_state(MatchState.ROUND_END)
+	
+	var winner_id := _get_winner_id()
+
+func _get_winner_id() -> int:
+	var winner_id := -1
+	var max_score := -1
+	
+	for id in active_players:
+		var score = scores.get(id)
+		if score > max_score:
+			max_score = score
+			winner_id = id
+			
+	return winner_id
 
 func _set_state(s: MatchState) -> void:
 	state = s
+	print("Match State: ", state)
 	state_changed.emit(state)

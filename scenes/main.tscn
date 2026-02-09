@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dn2qd8twvwk7x" path="res://scenes/tank.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://bgb2nhx5oloww" path="res://scripts/gameManager.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://b6h1ur6h8sd7r" path="res://scenes/dummy.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://dy881ddf1pys7" path="res://scenes/arena.tscn" id="2_jyhfs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_efo6m"]
 size = Vector3(50, 0.1, 50)
@@ -20,6 +21,8 @@ size = Vector3(1, 3, 1)
 
 [node name="GameManager" type="Node" parent="." unique_id=1607080417]
 script = ExtResource("1_sugp2")
+
+[node name="Arena" parent="." unique_id=1584895406 instance=ExtResource("2_jyhfs")]
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=66066755]
 
