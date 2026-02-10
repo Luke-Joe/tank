@@ -29,10 +29,9 @@ func generate(config: ArenaConfig) -> Array:
 		walker.y = clampi(walker.y, 1, config.grid_length - 2)
 		
 		if (grid[walker.x][walker.y] == Cell.HARD):
+			grid[walker.x][walker.y] = Cell.EMPTY
 			carved += 1
 			
-		grid[walker.x][walker.y] = Cell.EMPTY
-		
 	return grid
 
 func get_spawn_points() -> Array[Vector2i]:

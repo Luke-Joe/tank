@@ -1,10 +1,5 @@
 extends Node
 
-
-@export var wall_scene: PackedScene
-
-
-var grid: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var strategy = DrunkardWalkStrategy.new()
@@ -12,11 +7,7 @@ func _ready() -> void:
 	var grid = strategy.generate(config)
 	_print_grid(grid)
 	_build_walls(grid, config)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	_set_camera_position(config)
 
 
 func _print_grid(grid: Array) -> void:
@@ -30,6 +21,9 @@ func _print_grid(grid: Array) -> void:
 		print(row_str)
 
 func _build_walls(grid: Array, config: ArenaConfig) -> void:
+	var wall_material := StandardMaterial3D.new()
+	wall_material.albedo_color = Color.WHITE
+				
 	for x in grid.size():
 		for y in grid[0].size():
 			if grid[x][y] == GenerationStrategy.Cell.HARD:
@@ -39,6 +33,7 @@ func _build_walls(grid: Array, config: ArenaConfig) -> void:
 				var box_mesh := BoxMesh.new()
 				box_mesh.size = Vector3(config.cell_size, config.wall_height, config.cell_size)
 				mesh_instance.mesh = box_mesh
+				mesh_instance.material_override = wall_material
 				
 				var collision := CollisionShape3D.new()
 				var box_shape := BoxShape3D.new()
@@ -53,3 +48,10 @@ func _build_walls(grid: Array, config: ArenaConfig) -> void:
 					y * config.cell_size
 				)
 				add_child(wall)
+
+func _set_camera_position(config: ArenaConfig) -> void:
+	var center_x = (config.grid_width * config.cell_size) / 2.0
+	var center_y = (config.grid_length * config.cell_size) / 2.0 - config.camera_offset
+	
+	var cam = get_viewport().get_camera_3d()
+	cam.position = Vector3(center_x, 12.5, center_y)

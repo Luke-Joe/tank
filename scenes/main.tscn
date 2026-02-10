@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bgb2nhx5oloww" path="res://scripts/gameManager.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://b6h1ur6h8sd7r" path="res://scenes/dummy.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dy881ddf1pys7" path="res://scenes/arena.tscn" id="2_jyhfs"]
+[ext_resource type="Script" uid="uid://caa07ncaki3db" path="res://scripts/camera.gd" id="4_tbgi4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_efo6m"]
 size = Vector3(50, 0.1, 50)
@@ -25,6 +26,7 @@ script = ExtResource("1_sugp2")
 [node name="Arena" parent="." unique_id=1584895406 instance=ExtResource("2_jyhfs")]
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=66066755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.467129, 0, 17.386852)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=638260976]
 shape = SubResource("BoxShape3D_efo6m")
@@ -37,8 +39,9 @@ mesh = SubResource("BoxMesh_efo6m")
 transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0.19257599, 0.2794215)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1014850842]
-transform = Transform3D(1, 0, 0, 0, -0.0037288668, 0.9999931, 0, -0.9999931, -0.0037288668, 0, 22.373558, 1.3175793)
+transform = Transform3D(1, 0, 0, 0, -0.0037288668, 0.9999931, 0, -0.9999931, -0.0037288668, 0, 50, 0)
 fov = 70.0
+script = ExtResource("4_tbgi4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=98977181]
 transform = Transform3D(1, 0, 0, 0, 0.50000006, 0.8660255, 0, -0.8660255, 0.50000006, 3.02, 0, 0)
@@ -50,6 +53,7 @@ transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0.2593732, 1.1
 
 [node name="Walls" type="StaticBody3D" parent="Walls" unique_id=2075681742]
 transform = Transform3D(7.5, 0, 0, 0, 1, 0, 0, 0, 0.25, 0, 0, -0.8962857)
+visible = false
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls" unique_id=1230123897]
@@ -61,6 +65,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls2" type="StaticBody3D" parent="Walls" unique_id=1966011643]
 transform = Transform3D(7.5, 0, 0, 0, 1, 0, 0, 0, 0.25, 0, 0, 3.633984)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls2" unique_id=2021178935]
 shape = SubResource("BoxShape3D_o5qli")
@@ -71,6 +76,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls3" type="StaticBody3D" parent="Walls" unique_id=268579819]
 transform = Transform3D(-3.278354e-07, 0, 0.25, 0, 1, 0, -7.5, 0, -1.0927847e-08, 3.3033636, 0, 1.7449329)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls3" unique_id=1463597215]
 shape = SubResource("BoxShape3D_o5qli")
@@ -82,6 +88,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls4" type="StaticBody3D" parent="Walls" unique_id=1516536880]
 transform = Transform3D(-3.278354e-07, 0, 0.25, 0, 1, 0, -7.5, 0, -1.0927847e-08, -3.063894, 0, 1.7449329)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls4" unique_id=1875033923]
 shape = SubResource("BoxShape3D_o5qli")
@@ -93,6 +100,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls5" type="StaticBody3D" parent="Walls" unique_id=466957027]
 transform = Transform3D(-4.371139e-08, 0, 0.25, 0, 1, 0, -1, 0, -1.0927847e-08, -1.6603705, 0, 1.7449329)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls5" unique_id=355485665]
 shape = SubResource("BoxShape3D_o5qli")
@@ -104,6 +112,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls6" type="StaticBody3D" parent="Walls" unique_id=1541079415]
 transform = Transform3D(-4.371139e-08, 0, 0.25, 0, 1, 0, -1, 0, -1.0927847e-08, 1.5348798, 0, 1.7449329)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls6" unique_id=1517392293]
 shape = SubResource("BoxShape3D_o5qli")
@@ -115,6 +124,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_o5qli")
 
 [node name="Walls7" type="StaticBody3D" parent="Walls" unique_id=1248192757]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.25, -0.17613585, 0, 2.443232)
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Walls7" unique_id=835969085]
 shape = SubResource("BoxShape3D_o5qli")
