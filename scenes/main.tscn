@@ -37,7 +37,7 @@ mesh = SubResource("BoxMesh_efo6m")
 transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0.19257599, 0.2794215)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1014850842]
-transform = Transform3D(1, 0, 0, 0, -0.0037288668, 0.9999931, 0, -0.9999931, -0.0037288668, 0, 4.146284, 1.3175793)
+transform = Transform3D(1, 0, 0, 0, -0.0037288668, 0.9999931, 0, -0.9999931, -0.0037288668, 0, 22.373558, 1.3175793)
 fov = 70.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=98977181]

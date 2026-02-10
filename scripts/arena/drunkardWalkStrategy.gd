@@ -14,6 +14,9 @@ func generate(config: ArenaConfig) -> Array:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = config.seed
 	
+	if config.seed == 0:
+		rng.randomize()
+		
 	var walker := Vector2i(config.grid_width / 2, config.grid_length / 2)
 	var total_cells = config.grid_width * config.grid_length
 	var carve_count = int(total_cells * config.carve_ratio)
