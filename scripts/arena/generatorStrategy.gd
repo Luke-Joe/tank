@@ -8,14 +8,15 @@ enum Cell {
 	SPAWN
 }
 
+var spawns: Array[Vector2i] = []
+
 func generate(config: ArenaConfig) -> Array:
 	push_error('generate not implemented')
 	return []
 
 # This function will return a list of spawn points, one for each active_player
 func get_spawn_points() -> Array[Vector2i]:
-	push_error('get_spawn_points not implemented')
-	return []
+	return spawns
 	
 func _create_grid(config: ArenaConfig) -> Array:
 	var grid: Array = []

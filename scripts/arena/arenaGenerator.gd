@@ -50,8 +50,8 @@ func _build_walls(grid: Array, config: ArenaConfig) -> void:
 				add_child(wall)
 
 func _set_camera_position(config: ArenaConfig) -> void:
-	var center_x = (config.grid_width * config.cell_size) / 2.0
-	var center_y = (config.grid_length * config.cell_size) / 2.0 - config.camera_offset
+	var center_x = (config.grid_width * config.cell_size) / 2- config.camera_offset
+	var center_y = (config.grid_length * config.cell_size) / 2 - config.camera_offset
 	
 	var cam = get_viewport().get_camera_3d()
-	cam.position = Vector3(center_x, 12.5, center_y)
+	cam.position = Vector3(center_x, 17.5, center_y)
