@@ -1,13 +1,18 @@
 extends Node
 
+signal arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	add_to_group("arena_generator")
+
 	var strategy = DrunkardWalkStrategy.new()
 	var config = ArenaConfig.new()
 	var grid = strategy.generate(config)
 	_print_grid(grid)
 	_build_walls(grid, config)
 	_set_camera_position(config)
+	arena_ready.emit.call_deferred(strategy.get_spawn_points(), config)
 
 
 func _print_grid(grid: Array) -> void:
@@ -54,4 +59,4 @@ func _set_camera_position(config: ArenaConfig) -> void:
 	var center_y = (config.grid_length * config.cell_size) / 2 - config.camera_offset
 	
 	var cam = get_viewport().get_camera_3d()
-	cam.position = Vector3(center_x, 17.5, center_y)
+	cam.position = Vector3(center_x, 4, center_y)

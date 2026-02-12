@@ -28,7 +28,9 @@ signal round_time_changed(time_left: float)
 signal round_ended(winner_id: int, scores: Dictionary)
 
 func _ready() -> void:
-	_set_state(MatchState.LOBBY)
+	var arena_generator = $"../Arena/ArenaGenerator"
+	arena_generator.arena_ready.connect(_on_arena_ready)
+	_set_state(MatchState.LOBBY)	
 
 
 func _physics_process(delta: float) -> void:
@@ -65,3 +67,14 @@ func _set_state(s: MatchState) -> void:
 	state = s
 	print("Match State: ", state)
 	state_changed.emit(state)
+
+func _on_arena_ready(spawnPoints: Array[Vector2i], config: ArenaConfig) -> void:
+	for spawn in spawnPoints:
+		var tank = tank_scene.instantiate()
+		tank.position = Vector3(spawn.x * config.cell_size, 0.2, spawn.y * config.cell_size)
+		get_parent().add_child(tank)
+		
+		
+		
+		
+		
