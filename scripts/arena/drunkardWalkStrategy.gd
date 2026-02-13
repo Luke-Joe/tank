@@ -45,7 +45,30 @@ func _place_spawns(grid: Array, config: ArenaConfig) -> Array[Vector2i]:
 	var spawn_points: Array[Vector2i] = []
 	
 	var first_spawn = empty_cells[rng.randi() % empty_cells.size()]
+	grid[first_spawn.x][first_spawn.y] = Cell.SPAWN
 	spawn_points.append(first_spawn)
+	
+	for i in config.spawn_count - 1:
+		var farthest_spawn : Vector2i
+		var farthest_dist := -1.0
+		
+		for cell in empty_cells:
+			if grid[cell.x][cell.y] != Cell.EMPTY:
+				continue
+			
+			var min_dist := INF
+			for spawn in spawn_points:
+				var dist = Vector2(cell - spawn).length()
+				
+				if dist < min_dist:
+					min_dist = dist
+				
+			if min_dist > farthest_dist:
+				farthest_dist = min_dist
+				farthest_spawn = cell
+				
+		spawn_points.append(farthest_spawn)
+		grid[farthest_spawn.x][farthest_spawn.y] = Cell.SPAWN
 	
 	return spawn_points
 	

@@ -75,6 +75,3 @@ func _on_arena_ready(spawnPoints: Array[Vector2i], config: ArenaConfig) -> void:
 		get_parent().add_child(tank)
 		
 		
-		
-		
-		
