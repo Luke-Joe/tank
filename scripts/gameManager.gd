@@ -1,6 +1,5 @@
-extends Node
-
 class_name GameManager
+extends Node
 
 enum MatchState { 
 	LOBBY, 

@@ -9,7 +9,7 @@ func _ready() -> void:
 	var strategy = DrunkardWalkStrategy.new()
 	var config = ArenaConfig.new()
 	var grid = strategy.generate(config)
-	_print_grid(grid)
+	# _print_grid(grid)
 	_build_walls(grid, config)
 	_set_camera_position(config)
 	arena_ready.emit.call_deferred(strategy.get_spawn_points(), config)

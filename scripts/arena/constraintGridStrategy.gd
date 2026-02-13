@@ -1,5 +1,5 @@
-extends GenerationStrategy
 class_name ConstraintGridStrategy
+extends GenerationStrategy
 
 var directions: Array[Vector2i] = [
 	Vector2i(0, -1), # North

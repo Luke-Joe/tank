@@ -1,6 +1,5 @@
-extends RefCounted
-
 class_name GenerationStrategy
+extends RefCounted
 
 enum Cell {
 	EMPTY,

@@ -1,11 +1,28 @@
 [gd_scene format=3 uid="uid://0hdeb435c6gd"]
 
+[ext_resource type="Script" uid="uid://b7xsnw37rklhs" path="res://scripts/networking/lobby.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dn2qd8twvwk7x" path="res://scenes/tank.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://bgb2nhx5oloww" path="res://scripts/gameManager.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dy881ddf1pys7" path="res://scenes/arena.tscn" id="2_jyhfs"]
-[ext_resource type="Script" uid="uid://caa07ncaki3db" path="res://scripts/camera.gd" id="4_tbgi4"]
 
-[node name="Main_tscn" type="Node3D" unique_id=1479040445]
+[sub_resource type="GDScript" id="GDScript_tbgi4"]
+script/source = "extends Camera3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Main" type="Node3D" unique_id=1479040445]
+
+[node name="Lobby" type="Node" parent="." unique_id=498266000]
+script = ExtResource("1_jyhfs")
 
 [node name="GameManager" type="Node" parent="." unique_id=1607080417]
 script = ExtResource("1_sugp2")
@@ -16,7 +33,7 @@ tank_scene = ExtResource("1_o5qli")
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1014850842]
 transform = Transform3D(1, 0, 0, 0, -0.0037288668, 0.9999931, 0, -0.9999931, -0.0037288668, 0, 50, 0)
 fov = 70.0
-script = ExtResource("4_tbgi4")
+script = SubResource("GDScript_tbgi4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=98977181]
 transform = Transform3D(1, 0, 0, 0, 0.50000006, 0.8660255, 0, -0.8660255, 0.50000006, 3.02, 0, 0)
