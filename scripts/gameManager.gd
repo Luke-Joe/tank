@@ -27,8 +27,8 @@ signal round_time_changed(time_left: float)
 signal round_ended(winner_id: int, scores: Dictionary)
 
 func _ready() -> void:
-	var arena_generator = $"../Arena/ArenaGenerator"
-	arena_generator.arena_ready.connect(_on_arena_ready)
+	var lobby = $"../Lobby"
+	lobby.all_players_ready.connect(_on_all_players_ready)
 	_set_state(MatchState.LOBBY)	
 
 
@@ -73,4 +73,10 @@ func _on_arena_ready(spawnPoints: Array[Vector2i], config: ArenaConfig) -> void:
 		tank.position = Vector3(spawn.x * config.cell_size, 0.2, spawn.y * config.cell_size)
 		get_parent().add_child(tank)
 		
-		
+
+func _on_all_players_ready(player_ids: Array[int]) -> void:
+	active_players = player_ids
+	var arena_generator = $"../Arena/ArenaGenerator"
+	arena_generator.arena_ready.connect(_on_arena_ready)
+	var seed = randi()
+	arena_generator.generate_arena.rpc(seed)

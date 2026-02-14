@@ -2,7 +2,10 @@ class_name Lobby
 extends Node
 
 @export var port: int = 7000
+
 var players: Dictionary = {}
+
+signal all_players_ready(player_ids: Array[int])
  
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -42,10 +45,17 @@ func _on_peer_connected(id: int) -> void:
 	print("Peer connected: ", id)
 	players[id] = {}
 	
+	if multiplayer.is_server() and players.size() >= 2:
+		var player_ids: Array[int] = []
+		player_ids.assign(players.keys())
+		all_players_ready.emit(player_ids)
+	
+
 func _on_peer_disconnected(id: int) -> void:
 	print("Peer disconnected: ", id)
 	players.erase(id)
 	
+
 func _on_connected() -> void:
 	print("Connected to server!	")
 	
