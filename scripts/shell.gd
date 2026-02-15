@@ -34,7 +34,7 @@ class CollisionResult:
 
 func fire(dir: Vector3, shooter_id: int) -> void:
 	direction = dir.normalized()
-	shooter_id = shooter_id
+	self.shooter_id = shooter_id
 	
 func _physics_process(delta: float) -> void:
 	lifetime -= delta

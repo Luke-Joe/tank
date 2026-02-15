@@ -11,6 +11,9 @@ var fire := false
 var state = TankInputState.new()
 
 func _physics_process(delta: float) -> void:
+	if not get_parent().is_multiplayer_authority():
+		return
+	
 	state.move = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
 	state.turn = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")
 	state.aim = get_mouse_world_position()

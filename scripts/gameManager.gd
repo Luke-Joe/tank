@@ -67,10 +67,17 @@ func _set_state(s: MatchState) -> void:
 	print("Match State: ", state)
 	state_changed.emit(state)
 
-func _on_arena_ready(spawnPoints: Array[Vector2i], config: ArenaConfig) -> void:
-	for spawn in spawnPoints:
+func _on_arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig) -> void:	
+	for index in spawn_points.size():
+		var spawn = spawn_points[index]
+		var player_id = active_players[index]
+		
 		var tank = tank_scene.instantiate()
 		tank.position = Vector3(spawn.x * config.cell_size, 0.2, spawn.y * config.cell_size)
+		tank.set_multiplayer_authority(player_id)
+		tank.player_id = player_id
+		tanks[player_id] = tank
+		
 		get_parent().add_child(tank)
 		
 
