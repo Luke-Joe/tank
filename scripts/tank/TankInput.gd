@@ -11,8 +11,8 @@ var fire := false
 var state = TankInputState.new()
 
 func _physics_process(delta: float) -> void:
-	if not get_parent().is_multiplayer_authority():
-		return
+	if not get_parent().is_multiplayer_authority() or not is_inside_tree():
+		return	
 	
 	state.move = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
 	state.turn = Input.get_action_strength("turn_left") - Input.get_action_strength("turn_right")

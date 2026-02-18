@@ -18,6 +18,9 @@ var tanks: Dictionary = {} # id => tank
 var scores: Dictionary = {} # id => scores
 var active_players: Array[int] = []
 var pending_players: Array[int] = []
+@onready var arena_generator = $"../Arena/ArenaGenerator"
+@onready var lobby = $"../Lobby"
+
 
 var time_left := 0.0
 
@@ -27,8 +30,9 @@ signal round_time_changed(time_left: float)
 signal round_ended(winner_id: int, scores: Dictionary)
 
 func _ready() -> void:
-	var lobby = $"../Lobby"
 	lobby.all_players_ready.connect(_on_all_players_ready)
+	arena_generator.arena_ready.connect(_on_arena_ready)
+	
 	_set_state(MatchState.LOBBY)	
 
 
@@ -81,9 +85,12 @@ func _on_arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig) -> void
 		get_parent().add_child(tank)
 		
 
-func _on_all_players_ready(player_ids: Array[int]) -> void:
-	active_players = player_ids
-	var arena_generator = $"../Arena/ArenaGenerator"
-	arena_generator.arena_ready.connect(_on_arena_ready)
+func _on_all_players_ready(player_ids: Array[int]) -> void:	
 	var seed = randi()
-	arena_generator.generate_arena.rpc(seed)
+	_start_game.rpc(seed, player_ids)
+	
+@rpc("authority", "reliable", "call_local")
+func _start_game(seed: int, player_ids: Array[int]) -> void:
+	active_players = player_ids
+	arena_generator.generate_arena(seed)
+	

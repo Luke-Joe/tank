@@ -6,6 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://dtuwu1ws5qs0u" path="res://scenes/shell.tscn" id="2_lj6hj"]
 [ext_resource type="Script" uid="uid://bnf0xyguqsynv" path="res://scripts/health.gd" id="4_lj6hj"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lj6hj"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("TurretPivot:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x8idy"]
 resource_name = "VerdeClaro"
 cull_mode = 2
@@ -268,6 +279,9 @@ collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_01nm4")
 shell_scene = ExtResource("2_lj6hj")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1018413646]
+replication_config = SubResource("SceneReplicationConfig_lj6hj")
 
 [node name="TankInput" type="Node" parent="." unique_id=54009093]
 script = ExtResource("2_k4vtj")
