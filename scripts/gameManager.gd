@@ -92,5 +92,5 @@ func _on_all_players_ready(player_ids: Array[int]) -> void:
 @rpc("authority", "reliable", "call_local")
 func _start_game(seed: int, player_ids: Array[int]) -> void:
 	active_players = player_ids
-	arena_generator.generate_arena(seed)
+	arena_generator.generate_arena(seed, player_ids.size())
 	

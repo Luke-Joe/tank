@@ -6,8 +6,7 @@ signal arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig)
 func _ready() -> void:
 	add_to_group("arena_generator")
 
-@rpc("any_peer", "reliable", "call_local")
-func generate_arena(seed: int) -> void:
+func generate_arena(seed: int, player_count: int) -> void:
 	var config = ArenaConfig.new()
 	config.seed = seed
 
@@ -18,7 +17,6 @@ func generate_arena(seed: int) -> void:
 	_set_camera_position(config)
 	arena_ready.emit.call_deferred(strategy.get_spawn_points(), config)
 	
-
 func _print_grid(grid: Array) -> void:
 	for x in grid.size():
 		var row_str = ""
