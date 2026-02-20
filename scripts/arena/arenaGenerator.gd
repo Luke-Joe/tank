@@ -6,10 +6,7 @@ signal arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig)
 func _ready() -> void:
 	add_to_group("arena_generator")
 
-func generate_arena(seed: int, player_count: int) -> void:
-	var config = ArenaConfig.new()
-	config.seed = seed
-
+func generate_arena(config: ArenaConfig) -> void:
 	var strategy = DrunkardWalkStrategy.new()
 	var grid = strategy.generate(config)
 	# _print_grid(grid)
