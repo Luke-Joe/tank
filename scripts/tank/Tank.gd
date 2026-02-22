@@ -1,9 +1,6 @@
 extends CharacterBody3D
 
-@onready var input_node := $TankInput
-@onready var turret := $TurretPivot
-@onready var muzzle := $TurretPivot/Muzzle
-@onready var health := $Health
+signal died(player_id: int, killer_id: int)
 
 @export_group("Movement")
 @export var move_speed := 750.0
@@ -21,6 +18,11 @@ var input_state: TankInputState
 var player_id := 0
 var can_fire := true
 var is_dead := false
+
+@onready var input_node := $TankInput
+@onready var turret := $TurretPivot
+@onready var muzzle := $TurretPivot/Muzzle
+@onready var health := $Health
 
 
 func _ready() -> void:
@@ -111,8 +113,12 @@ func _on_shell_despawned(_shell: Node) -> void:
 	print("active shells:", active_shells)
 
 
-func _on_died(_source_id: int) -> void:
+func _on_died(source_id: int) -> void:
 	if is_dead:
 		return
 
 	is_dead = true
+	died.emit(player_id, source_id)
+
+	$MultiplayerSynchronizer.set_process(false)
+	queue_free()
