@@ -14,7 +14,7 @@ extends CharacterBody3D
 @export_group("Firing")
 @export var shell_scene: PackedScene
 @export var fire_cooldown := 0.4
-@export var max_active_shells := 100
+@export var max_active_shells := 5
 
 var active_shells := 0
 var input_state: TankInputState
@@ -73,7 +73,7 @@ func _handle_rotation(delta) -> void:
 
 
 func _request_fire() -> void:
-	if not can_fire or active_shells >= max_active_shells:
+	if not _can_shoot():
 		return
 
 	can_fire = false
@@ -82,8 +82,13 @@ func _request_fire() -> void:
 	can_fire = true
 
 
-func receive_damage(hit: HitInfo) -> void:
-	health._apply_damage(hit)
+func _can_shoot() -> bool:
+	return can_fire and active_shells < max_active_shells and is_inside_tree()
+
+
+@rpc("any_peer", "reliable", "call_local")
+func receive_damage(damage: int, source_id: int) -> void:
+	health._apply_damage(HitInfo.new(damage, source_id))
 
 
 @rpc("any_peer", "reliable", "call_local")
@@ -93,19 +98,20 @@ func _fire_shell(spawn_position: Vector3, direction: Vector3) -> void:
 		return
 
 	var shell = shell_scene.instantiate()
-	shell.global_position = spawn_position
 	get_tree().current_scene.add_child(shell)
+	shell.set_multiplayer_authority(player_id)
+	shell.global_position = spawn_position
 	shell.fire(direction, player_id)
 	shell.shell_despawned.connect(_on_shell_despawned)
 	active_shells += 1
 
 
-func _on_shell_despawned(shell: Node) -> void:
+func _on_shell_despawned(_shell: Node) -> void:
 	active_shells -= 1
 	print("active shells:", active_shells)
 
 
-func _on_died(source_id: int) -> void:
+func _on_died(_source_id: int) -> void:
 	if is_dead:
 		return
 

@@ -18,70 +18,76 @@ var direction := Vector3.ZERO
 var shooter_id: int
 
 signal shell_despawned(shell: Node)
-signal shell_bounced()
+signal shell_bounced
+
 
 class CollisionResult:
 	var point: Vector3
 	var normal: Vector3
 	var distance: float
 	var collider: Node3D
-	
+
 	func _init(p: Vector3, n: Vector3, d: float, c: Node3D) -> void:
 		point = p
 		normal = n
 		distance = d
 		collider = c
 
-func fire(dir: Vector3, shooter_id: int) -> void:
+
+func fire(dir: Vector3, source_id: int) -> void:
 	direction = dir.normalized()
-	self.shooter_id = shooter_id
-	
+	self.shooter_id = source_id
+
+
 func _physics_process(delta: float) -> void:
 	lifetime -= delta
 	if lifetime <= 0.0:
 		_despawn()
 		return
-		
-	_process_movement(delta)
-		
 
-func _process_movement(delta: float) -> void:	
+	_process_movement(delta)
+
+
+func _process_movement(delta: float) -> void:
 	var distance_to_travel := speed * delta
 	var motion := direction * distance_to_travel
-	
+
 	cast.target_position = motion
 	cast.force_shapecast_update()
-	
+
 	if !cast.is_colliding():
 		global_position += motion
 		return
-	
+
 	var collision_data = _get_collision_data()
-	
-	if (!collision_data):
+
+	if !collision_data:
 		return
-		
+
 	global_position += direction * collision_data.distance
-	
+
 	if _try_deal_damage(collision_data):
 		_despawn()
 		return
-		
-	_apply_bounce(collision_data)
-		
 
-func receive_damage(hit: HitInfo) -> void:
-	health._apply_damage(hit)
+	_apply_bounce(collision_data)
+
+
+@rpc("any_peer", "reliable", "call_local")
+func receive_damage(hit_damage: int, source_id: int) -> void:
+	health._apply_damage(HitInfo.new(hit_damage, source_id))
+
 
 func _check_collision(motion: Vector3) -> bool:
 	cast.target_position = motion
 	cast.force_shapecast_update()
 	return cast.is_colliding()
 
+
 func _get_collision_data() -> CollisionResult:
 	if !cast.is_colliding():
 		return null
-		
+
 	return CollisionResult.new(
 		cast.get_collision_point(0),
 		cast.get_collision_normal(0).normalized(),
@@ -89,44 +95,51 @@ func _get_collision_data() -> CollisionResult:
 		cast.get_collider(0)
 	)
 
+
 func _try_deal_damage(collision_data: CollisionResult) -> bool:
+	if not is_multiplayer_authority():
+		return false
+
 	var hit := collision_data.collider
-	
+
 	if hit == null:
 		return false
-		
-	if (hit.is_in_group('damageable') and hit.has_method('receive_damage')):
-		print('receiving damage: ', hit.name)
-		hit.receive_damage(HitInfo.new(damage, shooter_id))
+
+	if hit.is_in_group("damageable") and hit.has_method("receive_damage"):
+		print("receiving damage: ", hit.name)
+		hit.receive_damage.rpc(damage, shooter_id)
 		return true
-		
+
 	return false
-	
+
 
 func _apply_bounce(collision_data: CollisionResult) -> bool:
 	bounces += 1
-		
+
 	if bounces >= max_bounces:
 		_despawn()
 		return false
-		
+
 	var normal := collision_data.normal
-	
+
 	var impact_angle = abs(direction.dot(normal))
-	
+
 	direction = direction.bounce(normal).normalized()
-	
+
 	global_position += normal * _calculate_adaptive_margin(impact_angle)
-	
+
 	shell_bounced.emit(collision_data.point, normal, bounces)
-	
+
 	return true
 
-func _calculate_adaptive_margin(impact_angle: float) -> float:	
+
+func _calculate_adaptive_margin(impact_angle: float) -> float:
 	return lerp(min_margin, max_margin, impact_angle)
 
+
 func _ready() -> void:
-	print("shell ready")
+	pass
+
 
 func _despawn():
 	shell_despawned.emit(self)
