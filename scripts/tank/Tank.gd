@@ -30,7 +30,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_inside_tree():
+	if not is_inside_tree() or is_dead:
 		return
 
 	_handle_input()
@@ -119,6 +119,11 @@ func _on_died(source_id: int) -> void:
 
 	is_dead = true
 	died.emit(player_id, source_id)
+	_disable_player()
 
-	$MultiplayerSynchronizer.set_process(false)
-	queue_free()
+
+func _disable_player() -> void:
+	hide()
+	set_process(false)
+	set_collision_layer(0)
+	set_collision_mask(0)
