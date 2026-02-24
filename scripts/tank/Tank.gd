@@ -119,11 +119,11 @@ func _on_died(source_id: int) -> void:
 
 	is_dead = true
 	died.emit(player_id, source_id)
-	_disable_player()
-
-
-func _disable_player() -> void:
 	hide()
-	set_process(false)
+	disable_tank()
+
+
+func disable_tank() -> void:
+	set_physics_process(false)
 	set_collision_layer(0)
 	set_collision_mask(0)

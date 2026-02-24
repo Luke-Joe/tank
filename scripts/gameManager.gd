@@ -27,21 +27,16 @@ var time_left := 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	lobby.all_players_ready.connect(_on_all_players_ready)
 	arena_generator.arena_ready.connect(_on_arena_ready)
 
 	_set_state(MatchState.LOBBY)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if state != MatchState.IN_ROUND:
 		return
-
-	time_left -= delta
-	round_time_changed.emit(time_left)
-
-	if time_left <= 0.0:
-		end_round()
 
 
 func end_round() -> void:
@@ -49,6 +44,8 @@ func end_round() -> void:
 		return
 
 	_set_state(MatchState.ROUND_END)
+
+	get_tree().paused = true
 
 	var winner_id := _get_winner_id()
 

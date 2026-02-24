@@ -1,5 +1,8 @@
 extends Node3D
 
+signal shell_despawned(shell: Node)
+signal shell_bounced
+
 @export_group("Movement")
 @export var speed := 1.5
 @export var lifetime := 5.0
@@ -10,15 +13,12 @@ extends Node3D
 @export var max_margin := 0.07
 @export var damage := 1
 
-@onready var cast := $ShapeCast3D
-@onready var health := $Health
-
 var bounces := 0
 var direction := Vector3.ZERO
 var shooter_id: int
 
-signal shell_despawned(shell: Node)
-signal shell_bounced
+@onready var cast := $ShapeCast3D
+@onready var health := $Health
 
 
 class CollisionResult:
@@ -97,17 +97,15 @@ func _get_collision_data() -> CollisionResult:
 
 
 func _try_deal_damage(collision_data: CollisionResult) -> bool:
-	if not is_multiplayer_authority():
-		return false
-
 	var hit := collision_data.collider
 
 	if hit == null:
 		return false
 
 	if hit.is_in_group("damageable") and hit.has_method("receive_damage"):
-		print("receiving damage: ", hit.name)
-		hit.receive_damage.rpc(damage, shooter_id)
+		if is_multiplayer_authority():
+			print("receiving damage: ", hit.name)
+			hit.receive_damage.rpc(damage, shooter_id)
 		return true
 
 	return false
