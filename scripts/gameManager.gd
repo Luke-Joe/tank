@@ -11,7 +11,7 @@ enum MatchState { LOBBY, IN_ROUND, ROUND_END }
 @export var tank_scene: PackedScene
 @export var round_seconds := 60.0
 @export var respawn_delay := 2.0
-@export var intermission_seconds := 3.0
+@export var intermission_seconds := 1.5
 @export var auto_start_when_players := 2
 
 var state: MatchState = MatchState.LOBBY
@@ -47,7 +47,11 @@ func end_round() -> void:
 
 	get_tree().paused = true
 
-	var winner_id := _get_winner_id()
+	var _winner_id := _get_winner_id()
+
+	await get_tree().create_timer(intermission_seconds, false).timeout
+
+	this._cleanup_round()
 
 
 func _get_winner_id() -> int:
@@ -111,3 +115,16 @@ func _on_tank_died(_player_id, killer_id) -> void:
 
 	if remaining_players == 1:
 		end_round()
+
+
+func _cleanup_round() -> void:
+	# TODO: IMPLEMENT THIS
+	arena_generator.cleanup_arena()
+	_cleanup_tanks()
+
+
+func _cleanup_tanks() -> void:
+	for tank in tanks.values():
+		tank.queue_free()
+
+	tanks.clear()
