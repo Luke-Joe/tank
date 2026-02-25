@@ -2,8 +2,6 @@ extends Node
 
 signal arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig)
 
-const WALL_GROUP = "wall"
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -41,7 +39,7 @@ func _build_walls(grid: Array, config: ArenaConfig) -> void:
 		for y in grid[0].size():
 			if grid[x][y] == GenerationStrategy.Cell.HARD:
 				var wall := StaticBody3D.new()
-				wall.add_to_group(WALL_GROUP)
+				wall.add_to_group(Groups.WALL)
 
 				var mesh_instance := MeshInstance3D.new()
 				var box_mesh := BoxMesh.new()
@@ -72,5 +70,5 @@ func _set_camera_position(config: ArenaConfig) -> void:
 
 func cleanup_arena() -> void:
 	for child in get_children():
-		if child.is_in_group(WALL_GROUP):
+		if child.is_in_group(Groups.WALL):
 			child.queue_free()

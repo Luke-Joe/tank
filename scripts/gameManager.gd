@@ -47,11 +47,9 @@ func end_round() -> void:
 
 	get_tree().paused = true
 
-	var _winner_id := _get_winner_id()
-
 	await get_tree().create_timer(intermission_seconds, false).timeout
 
-	this._cleanup_round()
+	_cleanup_round()
 
 
 func _get_winner_id() -> int:
@@ -118,9 +116,9 @@ func _on_tank_died(_player_id, killer_id) -> void:
 
 
 func _cleanup_round() -> void:
-	# TODO: IMPLEMENT THIS
 	arena_generator.cleanup_arena()
 	_cleanup_tanks()
+	_cleanup_shells()
 
 
 func _cleanup_tanks() -> void:
@@ -128,3 +126,8 @@ func _cleanup_tanks() -> void:
 		tank.queue_free()
 
 	tanks.clear()
+
+
+func _cleanup_shells() -> void:
+	for shell in get_tree().get_nodes_in_group(Groups.SHELL):
+		shell.queue_free()

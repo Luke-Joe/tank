@@ -103,6 +103,7 @@ func _fire_shell(spawn_position: Vector3, direction: Vector3) -> void:
 	get_tree().current_scene.add_child(shell)
 	shell.set_multiplayer_authority(player_id)
 	shell.global_position = spawn_position
+	shell.add_to_group(Groups.SHELL)
 	shell.fire(direction, player_id)
 	shell.shell_despawned.connect(_on_shell_despawned)
 	active_shells += 1
