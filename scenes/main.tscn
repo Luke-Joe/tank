@@ -27,6 +27,14 @@ script = ExtResource("1_jyhfs")
 [node name="GameManager" type="Node" parent="." unique_id=1607080417]
 script = ExtResource("1_sugp2")
 tank_scene = ExtResource("1_o5qli")
+debug_mode = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1178408586]
+
+[node name="DebugLabel" type="Label" parent="CanvasLayer" unique_id=1919344054]
+offset_right = 729.0
+offset_bottom = 550.0
+text = "test"
 
 [node name="Arena" parent="." unique_id=1584895406 instance=ExtResource("2_jyhfs")]
 

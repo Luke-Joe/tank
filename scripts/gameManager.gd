@@ -13,6 +13,7 @@ enum MatchState { LOBBY, IN_ROUND, ROUND_END }
 @export var respawn_delay := 2.0
 @export var intermission_seconds := 1.5
 @export var auto_start_when_players := 2
+@export var debug_mode := true
 
 var state: MatchState = MatchState.LOBBY
 var tanks: Dictionary = {}  # id => tank
@@ -24,6 +25,7 @@ var time_left := 0.0
 
 @onready var arena_generator = $"../Arena/ArenaGenerator"
 @onready var lobby = $"../Lobby"
+@onready var debug_label = $"../CanvasLayer/DebugLabel"
 
 
 func _ready() -> void:
@@ -47,28 +49,22 @@ func end_round() -> void:
 
 	get_tree().paused = true
 
-	await get_tree().create_timer(intermission_seconds, false).timeout
+	await get_tree().create_timer(intermission_seconds, true).timeout
 
 	_cleanup_round()
 
+	get_tree().paused = false
 
-func _get_winner_id() -> int:
-	var winner_id := -1
-	var max_score := -1
-
-	for id in active_players:
-		var score = scores.get(id)
-		if score > max_score:
-			max_score = score
-			winner_id = id
-
-	return winner_id
+	if multiplayer.is_server():
+		var arena_seed = randi()
+		_start_game.rpc(arena_seed, active_players)
 
 
 func _set_state(s: MatchState) -> void:
 	state = s
 	print("Match State: ", state)
 	state_changed.emit(state)
+	_update_debug()
 
 
 func _on_arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig) -> void:
@@ -82,10 +78,12 @@ func _on_arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig) -> void
 		tank.player_id = player_id
 		tank.died.connect(_on_tank_died)
 		tanks[player_id] = tank
+		tank.name = "Tank_" + str(player_id)
 
 		get_parent().add_child(tank)
 
 	_set_state(MatchState.IN_ROUND)
+	_update_debug()
 
 
 func _on_all_players_ready(player_ids: Array[int]) -> void:
@@ -95,6 +93,8 @@ func _on_all_players_ready(player_ids: Array[int]) -> void:
 
 @rpc("authority", "reliable", "call_local")
 func _start_game(arena_seed: int, player_ids: Array[int]) -> void:
+	print("_start_game - seed: ", arena_seed, " peer: ", multiplayer.get_unique_id())
+
 	var config = ArenaConfig.new()
 	config.seed = arena_seed
 	config.spawn_count = player_ids.size()
@@ -114,6 +114,8 @@ func _on_tank_died(_player_id, killer_id) -> void:
 	if remaining_players == 1:
 		end_round()
 
+	_update_debug()
+
 
 func _cleanup_round() -> void:
 	arena_generator.cleanup_arena()
@@ -131,3 +133,14 @@ func _cleanup_tanks() -> void:
 func _cleanup_shells() -> void:
 	for shell in get_tree().get_nodes_in_group(Groups.SHELL):
 		shell.queue_free()
+
+
+func _update_debug() -> void:
+	debug_label.visible = debug_mode
+	debug_label.text = (
+		"peer: %s\n, state: %s"
+		% [
+			multiplayer.get_unique_id(),
+			state,
+		]
+	)
