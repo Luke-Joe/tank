@@ -45,7 +45,7 @@ func end_round() -> void:
 
 	await get_tree().create_timer(intermission_seconds, true).timeout
 
-	_cleanup_round()
+	await _cleanup_round()
 
 	get_tree().paused = false
 
@@ -118,9 +118,12 @@ func _cleanup_round() -> void:
 	_cleanup_tanks()
 	_cleanup_shells()
 
+	await get_tree().process_frame
+
 
 func _cleanup_tanks() -> void:
 	for tank in tanks.values():
+		tank.get_parent().remove_child(tank)
 		tank.queue_free()
 
 	tanks.clear()
