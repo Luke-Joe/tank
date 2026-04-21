@@ -2,17 +2,11 @@ class_name GameManager
 extends Node
 
 signal state_changed(state: MatchState)
-signal score_changed(id: int, score: int)
-signal round_time_changed(time_left: float)
-signal round_ended(winner_id: int, scores: Dictionary)
 
 enum MatchState { LOBBY, IN_ROUND, ROUND_END }
 
 @export var tank_scene: PackedScene
-@export var round_seconds := 60.0
-@export var respawn_delay := 2.0
 @export var intermission_seconds := 1.5
-@export var auto_start_when_players := 2
 @export var debug_mode := true
 
 var state: MatchState = MatchState.LOBBY
@@ -21,7 +15,6 @@ var scores: Dictionary = {}  # id => scores
 var active_players: Array[int] = []
 var pending_players: Array[int] = []
 var remaining_players: int
-var time_left := 0.0
 
 @onready var arena_generator = $"../Arena/ArenaGenerator"
 @onready var lobby = $"../Lobby"
