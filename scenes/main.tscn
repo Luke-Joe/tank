@@ -27,14 +27,23 @@ script = ExtResource("1_jyhfs")
 [node name="GameManager" type="Node" parent="." unique_id=1607080417]
 script = ExtResource("1_sugp2")
 tank_scene = ExtResource("1_o5qli")
-debug_mode = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1178408586]
 
 [node name="DebugLabel" type="Label" parent="CanvasLayer" unique_id=1919344054]
-offset_right = 729.0
-offset_bottom = 550.0
+offset_right = 112.0
+offset_bottom = 68.0
 text = "test"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=2044011922]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -107.0
+offset_bottom = 35.0
+grow_horizontal = 0
+text = "TEST2"
+metadata/_edit_use_anchors_ = true
 
 [node name="Arena" parent="." unique_id=1584895406 instance=ExtResource("2_jyhfs")]
 

@@ -19,6 +19,7 @@ var remaining_players: int
 @onready var arena_generator = $"../Arena/ArenaGenerator"
 @onready var lobby = $"../Lobby"
 @onready var debug_label = $"../CanvasLayer/DebugLabel"
+@onready var score_label = $"../CanvasLayer/ScoreLabel"
 
 
 func _ready() -> void:
@@ -77,6 +78,7 @@ func _on_arena_ready(spawn_points: Array[Vector2i], config: ArenaConfig) -> void
 
 	_set_state(MatchState.IN_ROUND)
 	_update_debug()
+	_update_scores()
 
 
 func _on_all_players_ready(player_ids: Array[int]) -> void:
@@ -108,6 +110,7 @@ func _on_tank_died(_player_id, killer_id) -> void:
 		end_round()
 
 	_update_debug()
+	_update_scores()
 
 
 func _cleanup_round() -> void:
@@ -137,3 +140,13 @@ func _update_debug() -> void:
 			state,
 		]
 	)
+
+
+func _update_scores() -> void:
+	var lines := []
+
+	for i in active_players.size():
+		var id = active_players[i]
+		lines.append("P%d: %d" % [i + 1, scores.get(id, 0)])
+
+	score_label.text = "\n".join(lines)
