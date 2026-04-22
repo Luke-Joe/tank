@@ -36,22 +36,25 @@ func _physics_process(_delta: float) -> void:
 
 
 func end_round() -> void:
+	if not multiplayer.is_server():
+		return
+
 	if state != MatchState.IN_ROUND:
 		return
 
-	_set_state(MatchState.ROUND_END)
-
-	get_tree().paused = true
+	_on_round_ended.rpc()
 
 	await get_tree().create_timer(intermission_seconds, true).timeout
-
-	await _cleanup_round()
-
-	get_tree().paused = false
 
 	if multiplayer.is_server():
 		var arena_seed = randi()
 		_start_game.rpc(arena_seed, active_players)
+
+
+@rpc("authority", "reliable", "call_local")
+func _on_round_ended() -> void:
+	_set_state(MatchState.ROUND_END)
+	get_tree().paused = true
 
 
 func _set_state(s: MatchState) -> void:
@@ -88,6 +91,9 @@ func _on_all_players_ready(player_ids: Array[int]) -> void:
 
 @rpc("authority", "reliable", "call_local")
 func _start_game(arena_seed: int, player_ids: Array[int]) -> void:
+	get_tree().paused = false
+	await _cleanup_round()
+
 	print("_start_game - seed: ", arena_seed, " peer: ", multiplayer.get_unique_id())
 
 	var config = ArenaConfig.new()
