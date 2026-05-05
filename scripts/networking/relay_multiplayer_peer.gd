@@ -1,6 +1,8 @@
 class_name RelayMultiplayerPeer
 extends MultiplayerPeerExtension
 
+const MAX_PACKET_BYTES := 65536
+
 var _socket := WebSocketPeer.new()
 var _unique_id := 0
 var _host_id := 0
@@ -26,6 +28,15 @@ func join(relay_url: String, join_code: String) -> void:
 
 func _poll() -> void:
 	_socket.poll()
+
+	var socket_state = _socket.get_ready_state()
+
+	if (
+		socket_state == WebSocketPeer.STATE_CLOSED
+		and _status != MultiplayerPeer.CONNECTION_DISCONNECTED
+	):
+		_status = MultiplayerPeer.CONNECTION_DISCONNECTED
+		return
 
 	while _socket.get_available_packet_count() > 0:
 		var raw = _socket.get_packet()
@@ -62,6 +73,9 @@ func _handle_message(msg: Dictionary) -> void:
 
 		RelayMessageType.Server.RELAY:
 			var from: int = msg.get("from")
+			if from == _host_id:
+				from = MultiplayerPeer.TARGET_PEER_SERVER
+
 			var data: PackedByteArray = Marshalls.base64_to_raw(msg.get("data", ""))
 			_incoming.append({"peer": from, "data": data})
 
@@ -70,6 +84,59 @@ func _handle_message(msg: Dictionary) -> void:
 
 		_:
 			push_error("Unhandled message type: " + str(msg.get("type", "")))
+
+
+func _get_unique_id() -> int:
+	if _is_host:
+		return MultiplayerPeer.TARGET_PEER_SERVER
+
+	return _unique_id
+
+
+func _get_connection_status() -> ConnectionStatus:
+	return _status
+
+
+func _is_server() -> bool:
+	return _is_host
+
+
+func _get_max_packet_size() -> int:
+	return MAX_PACKET_BYTES
+
+
+func _set_target_peer(peer: int) -> void:
+	_target_peer = peer
+
+
+func _get_packet_peer() -> int:
+	return _incoming[0]["peer"]
+
+
+func _get_available_packet_count() -> int:
+	return _incoming.size()
+
+
+func _get_packet_script() -> PackedByteArray:
+	return _incoming.pop_front()["data"]
+
+
+func _put_packet_script(p_buffer: PackedByteArray) -> Error:
+	var target := _host_id if _target_peer == MultiplayerPeer.TARGET_PEER_SERVER else _target_peer
+
+	_send(
+		{
+			"type": RelayMessageType.client_to_string(RelayMessageType.Client.RELAY),
+			"targetPeerId": target,
+			"data": Marshalls.raw_to_base64(p_buffer)
+		}
+	)
+
+	return OK
+
+
+func _disconnect_peer(_peer: int, _force: bool) -> void:
+	pass
 
 
 func _send(data: Dictionary) -> void:
