@@ -1,6 +1,8 @@
 class_name RelayMultiplayerPeer
 extends MultiplayerPeerExtension
 
+signal room_joined(join_code: String)
+
 const MAX_PACKET_BYTES := 65536
 
 var _socket := WebSocketPeer.new()
@@ -62,6 +64,7 @@ func _handle_message(msg: Dictionary) -> void:
 		RelayMessageType.Server.ROOM_JOINED:
 			_host_id = msg.get("hostId")
 			_status = MultiplayerPeer.CONNECTION_CONNECTED
+			room_joined.emit(msg.get("joinCode"))
 
 		RelayMessageType.Server.PEER_CONNECTED:
 			var peer_id: int = msg.get("peerId")
