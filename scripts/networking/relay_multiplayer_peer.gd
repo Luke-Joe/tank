@@ -31,6 +31,9 @@ func join(relay_url: String, join_code: String) -> void:
 func _poll() -> void:
 	_socket.poll()
 
+	if _socket.get_available_packet_count() > 0:
+		print("packets available: ", _socket.get_available_packet_count())
+
 	var socket_state = _socket.get_ready_state()
 
 	if (
@@ -47,6 +50,7 @@ func _poll() -> void:
 
 
 func _handle_message(msg: Dictionary) -> void:
+	print("_handle_message: ", msg.get("type", ""))
 	var msg_type = RelayMessageType.string_to_server(msg.get("type", ""))
 
 	match msg_type:
@@ -64,6 +68,13 @@ func _handle_message(msg: Dictionary) -> void:
 		RelayMessageType.Server.ROOM_JOINED:
 			_host_id = msg.get("hostId")
 			_status = MultiplayerPeer.CONNECTION_CONNECTED
+			var peers: Array = msg.get("peers", [])
+			for relay_id in peers:
+				if relay_id != _unique_id:
+					var godot_id = (
+						MultiplayerPeer.TARGET_PEER_SERVER if relay_id == _host_id else relay_id
+					)
+					emit_signal("peer_connected", godot_id)
 			room_joined.emit(msg.get("joinCode"))
 
 		RelayMessageType.Server.PEER_CONNECTED:
@@ -136,6 +147,10 @@ func _put_packet_script(p_buffer: PackedByteArray) -> Error:
 	)
 
 	return OK
+
+
+func _get_packed_mode() -> MultiplayerPeer.TransferMode:
+	return MultiplayerPeer.TRANSFER_MODE_RELIABLE
 
 
 func _disconnect_peer(_peer: int, _force: bool) -> void:
