@@ -2,6 +2,7 @@ class_name Lobby
 extends Node
 
 signal all_players_ready(player_ids: Array[int])
+signal room_joined(join_code: String)
 
 const LOCAL_WS_SERVER = "ws://localhost:8080"
 @export var port: int = 7000
@@ -24,7 +25,7 @@ func _ready() -> void:
 func host_game() -> void:
 	var peer = RelayMultiplayerPeer.new()
 	peer.host(LOCAL_WS_SERVER)
-	peer.room_joined.connect(_on_room_joined)
+	peer.room_joined.connect(func(code): room_joined.emit(code))
 	multiplayer.multiplayer_peer = peer
 
 

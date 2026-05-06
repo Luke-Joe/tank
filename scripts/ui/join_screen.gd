@@ -6,7 +6,7 @@ extends Control
 func _on_confirm_pressed() -> void:
 	ConnectionState.is_host = false
 	ConnectionState.join_code = join_code_input.text
-	get_tree().change_scene_to_file("res://scenes/lobby.tscn")
+	get_tree().change_scene_to_file("res://scenes/lobby_screen.tscn")
 
 
 func _on_back_pressed() -> void:

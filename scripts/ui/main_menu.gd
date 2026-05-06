@@ -3,7 +3,7 @@ extends Control
 
 func _on_host_pressed() -> void:
 	ConnectionState.is_host = true
-	get_tree().change_scene_to_file("res://scenes/lobby.tscn")
+	get_tree().change_scene_to_file("res://scenes/lobby_screen.tscn")
 
 
 func _on_join_pressed() -> void:

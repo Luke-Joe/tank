@@ -4,30 +4,40 @@
 
 [node name="Control" type="Control" unique_id=1442767726]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1912594535]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=903646262]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=2107925011]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1912594535]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2107925011]
 layout_mode = 2
 text = "TEST"
 
-[node name="Host" type="Button" parent="VBoxContainer" unique_id=1028258298]
+[node name="Host" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1028258298]
 layout_mode = 2
 text = "HOST"
 
-[node name="Join" type="Button" parent="VBoxContainer" unique_id=1030223668]
+[node name="Join" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1030223668]
 layout_mode = 2
 text = "JOIN"
 
-[node name="Exit" type="Button" parent="VBoxContainer" unique_id=1701890477]
+[node name="Exit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1701890477]
 layout_mode = 2
 text = "EXIT"
 
-[connection signal="pressed" from="VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="VBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

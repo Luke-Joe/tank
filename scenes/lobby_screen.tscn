@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dkuj7ln0f2yq5"]
+
+[ext_resource type="Script" uid="uid://bejsoherewjw2" path="res://scripts/ui/lobby_screen.gd" id="1_wbad2"]
+[ext_resource type="Script" uid="uid://b7xsnw37rklhs" path="res://scripts/networking/lobby.gd" id="2_hapox"]
+
+[node name="Control" type="Control" unique_id=439568839]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wbad2")
+
+[node name="NetworkManager" type="Node" parent="." unique_id=1874576895]
+script = ExtResource("2_hapox")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=406513543]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1441152957]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1168191757]
+layout_mode = 2
+text = "Lobby"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=2120991110]
+layout_mode = 2
+
+[node name="CodeLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=293980968]
+layout_mode = 2
+text = "ABC123"
+
+[node name="Copy" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1556799248]
+layout_mode = 2
+text = "COPY"
+
+[node name="PlayerList" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=536820363]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="CenterContainer/VBoxContainer" unique_id=259444287]
+layout_mode = 2
+text = "START"
+
+[node name="Back" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1886117242]
+layout_mode = 2
+text = "BACK"
